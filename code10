@@ -1,0 +1,49 @@
+
+from itertools import permutations
+
+# Number of cities
+n = int(input("Enter number of cities: "))
+
+# Cost matrix
+graph = []
+
+print("Enter the cost matrix:")
+for i in range(n):
+    row = list(map(int, input().split()))
+    graph.append(row)
+
+# Starting city
+start = 0
+
+# List of cities except starting city
+cities = list(range(n))
+cities.remove(start)
+
+min_cost = float('inf')
+best_route = []
+
+# Generate all possible routes
+for route in permutations(cities):
+
+    current_cost = 0
+    current_city = start
+
+    # Calculate travelling cost
+    for city in route:
+        current_cost += graph[current_city][city]
+        current_city = city
+
+    # Return to starting city
+    current_cost += graph[current_city][start]
+
+    # Find minimum cost
+    if current_cost < min_cost:
+        min_cost = current_cost
+        best_route = [start] + list(route) + [start]
+
+# Display result
+print("\nOptimal Route:")
+for city in best_route:
+    print(city, end=" ")
+
+print("\nMinimum Travelling Cost:", min_cost)
